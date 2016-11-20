@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "215903334793",
+    "firebase_url": "https://test-24c6e.firebaseio.com",
+    "project_id": "test-24c6e",
+    "storage_bucket": "test-24c6e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215903334793:android:51a80fb79a143d00",
+        "android_client_info": {
+          "package_name": "cualmemo.ssp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215903334793-g5to2ocrir47vnlom8msgmnhqrb2m9ap.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cualmemo.ssp",
+            "certificate_hash": "003992E0721F649986887E79AF601EBC0E23E499"
+          }
+        },
+        {
+          "client_id": "215903334793-6cicnebu49ghkos7vse5air9uvkl5jg5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsKs_gDBZ17CqDXtUQmD4O53hbmJoAaCo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215903334793-6cicnebu49ghkos7vse5air9uvkl5jg5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
