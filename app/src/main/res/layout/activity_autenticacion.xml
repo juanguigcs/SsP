@@ -52,6 +52,16 @@
         android:orientation="vertical"
         android:paddingTop="40dp">
 
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
         <com.facebook.login.widget.LoginButton
             android:id="@+id/loginButton"
             android:layout_width="wrap_content"
@@ -67,6 +77,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp" />
+
+
+
         <Button
             android:layout_width="350dp"
             android:layout_height="60dp"
@@ -75,14 +88,7 @@
             android:hint="@string/sbncuenta"
             android:id="@+id/bCncuenta"
             android:layout_gravity="center_horizontal"/>
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:visibility="gone" />
+
 
     </LinearLayout>
 
