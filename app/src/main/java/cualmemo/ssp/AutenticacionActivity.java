@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -24,7 +26,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 
-public class AutenticacionActivity extends AppCompatActivity {
+public class AutenticacionActivity extends AppCompatActivity implements View.OnClickListener {
+
+    Button bncuenta;
+    ImageButton bLogin;
+
+
     private LoginButton loginButton;
     private CallbackManager callbackManager;
 
@@ -38,6 +45,13 @@ public class AutenticacionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_autenticacion);
+
+        bncuenta=(Button)findViewById(R.id.bCncuenta);
+        bLogin=(ImageButton)findViewById(R.id.bLogin);
+        // bFace.setOnClickListener(this);
+        bncuenta.setOnClickListener(this);
+        bLogin.setOnClickListener(this);
+
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -114,5 +128,21 @@ public class AutenticacionActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         firebaseAuth.removeAuthStateListener(firebaseAuthListener);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.bCncuenta:
+                Intent intent2=new Intent(getApplicationContext(),RegistroActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.bLogin:
+                Intent intent3=new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent3);
+                break;
+        }
+
     }
 }

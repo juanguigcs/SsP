@@ -1,7 +1,6 @@
 package cualmemo.ssp;
 
 
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -17,7 +16,6 @@ import com.google.firebase.messaging.RemoteMessage;
 /**
  * Created by Memo on 20/11/2016.
  */
-
 public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
     public static final String TAG = "NOTICIAS";
@@ -31,6 +29,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Notificación: " + remoteMessage.getNotification().getBody());
+
             mostrarNotificacion(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         }
 
@@ -46,10 +45,10 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-       NotificationCompat.Builder Notification =  new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)
@@ -57,8 +56,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, Notification.build());
+        notificationManager.notify(0, notificationBuilder.build());
 
     }
-
 }

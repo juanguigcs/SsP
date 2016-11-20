@@ -1,7 +1,21 @@
 <resources>
-    <string name="app_name">SsP</string>
+    <string name="app_name">Suramérica sin Pasaporte </string>
     <string name="facebook_app_id">1140893312631760</string>
     <string name="cancel_login">cancel login face</string>
     <string name="error_login">error login face</string>
     <string name="firebase_error_login">error login firebase</string>
+
+    <string name="abierto">Open navigation drawer</string>
+    <string name="cerrado">Close navigation drawer</string>
+
+    <string name="sbncuenta"><u>Crear una cuenta</u></string>
+    <string name="sblogin">login</string>
+    <string name="Usuario">Ingrese Usuario</string>
+    <string name="Comtrasena">Ingrese Contraseña</string>
+    <string name="Entrar">Entrar</string>
+    <string name="Resgistro">Resgistro</string>
+    <string name="Correo">Correo xx@xx</string>
+    <string name="Aceptar">Aceptar</string>
+    <string name="Cancelar">Cancelar</string>
+    <string name="ruta1">Ruta Medellín - Machu Picchu : </string>
 </resources>
