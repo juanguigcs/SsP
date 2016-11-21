@@ -26,6 +26,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -159,9 +160,29 @@ public class AutenticacionActivity extends AppCompatActivity implements View.OnC
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        /*firebaseAuth.getCurrentUser().linkWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "linkWithCredential:onComplete:" + task.isSuccessful());
+                        if (!task.isSuccessful()) {
+                            FirebaseUser prevUser = currentUser;
+                            try {
+                                currentUser = Tasks.await(auth.signInWithCredential(credential)).getUser();
+                            } catch (Exception e) {
+                                e.printStackStrace();
+                            }
+                            // Merge prevUser and currentUser accounts and data
+                            // ...
+                        } else {
+
+                        }
+                    }
+                });*/
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

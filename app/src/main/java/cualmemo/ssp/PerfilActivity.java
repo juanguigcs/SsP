@@ -7,62 +7,38 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-public class TestFireActivity extends AppCompatActivity implements View.OnClickListener {
+public class PerfilActivity extends AppCompatActivity {
+    ListView Lst, listz;
 
-    private static final String TAG = "userrrr:" ;
-    ListView listz;
     private String [] opciones = new  String[]{"Principal","Rutas","Mis rutas","Perfil","Cerrar sesión"};
+
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-
-    EditText fid,fuser,fpass,fmail;
-    Button bfin,bfact,bfbus,bfdel;
-
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference UserRef = database.getReference("User");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_fire);
+        setContentView(R.layout.activity_perfil);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        fid=(EditText)findViewById(R.id.fid);
-        fuser=(EditText)findViewById(R.id.fusuario);
-        fpass=(EditText)findViewById(R.id.fcontrasena);
-        fmail=(EditText)findViewById(R.id.fcorreo);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
 
-        bfin=(Button)findViewById(R.id.bfingresar);
-        bfact=(Button)findViewById(R.id.bfactualizar);
-        bfbus=(Button)findViewById(R.id.bfbuscar);
-        bfdel=(Button)findViewById(R.id.bfborrar);
-
-        bfin.setOnClickListener(this);
-        bfact.setOnClickListener(this);
-        bfbus.setOnClickListener(this);
-        bfdel.setOnClickListener(this);
-
+        //myRef.setValue("Hello, World!");
 
         ActionBar actionBar = getSupportActionBar();
 
@@ -84,18 +60,18 @@ public class TestFireActivity extends AppCompatActivity implements View.OnClickL
                         Intent intent3= new Intent(getApplicationContext(),MainActivity.class);
                         startActivity(intent3);
                         //   Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
-                        finish();
                         break;
                     case(1):
-                        Intent intent= new Intent(getApplicationContext(),MainActivity.class);
+                        Intent intent= new Intent(getApplicationContext(),RutasActivity.class);
                         startActivity(intent);
-                        finish();
+                        // finish();
                         // Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
                     case(2):
-                        Intent intent2= new Intent(getApplicationContext(),MainActivity.class);
+                        Intent intent2= new Intent(getApplicationContext(),MisRutasActivity.class);
+
                         startActivity(intent2);
-                        finish();
+                        // finish();
                         // Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
                     case(3):
@@ -128,47 +104,6 @@ public class TestFireActivity extends AppCompatActivity implements View.OnClickL
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View view) {
-        int id=view.getId();
-
-        switch (id){
-            case R.id.bfingresar:
-                Usuario user=new Usuario(Integer.parseInt(fid.getText().toString()),fuser.getText().toString(),fmail.getText().toString(),fpass.getText().toString(),"co");
-                UserRef.child(fid.getText().toString()).setValue(user);
-                break;
-            case R.id.bfactualizar:
-
-                break;
-            case R.id.bfbuscar:
-                ValueEventListener postListener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get Post object and use the values to update the UI
-                        Usuario u1 = dataSnapshot.child(fid.getText().toString()).getValue(Usuario.class);
-                        fid.setText(Integer.toString(u1.id));
-                        fuser.setText(u1.usuario);
-                        fmail.setText(u1.correo);
-                        fpass.setText(u1.contrasena);
-                        // ...
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Getting Post failed, log a message
-                        Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                        // ...
-                    }
-                };
-                UserRef.addValueEventListener(postListener);
-                break;
-            case R.id.bfborrar:
-
-                break;
-
-        }
     }
     private void goAutenticacionScreen() {
         Intent intent = new Intent(this, AutenticacionActivity.class);

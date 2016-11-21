@@ -3,69 +3,44 @@ package cualmemo.ssp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-public class TestFireActivity extends AppCompatActivity implements View.OnClickListener {
+public class RutasActivity extends AppCompatActivity {
 
-    private static final String TAG = "userrrr:" ;
+    //Instancia para el Navigation drawer
     ListView listz;
     private String [] opciones = new  String[]{"Principal","Rutas","Mis rutas","Perfil","Cerrar sesión"};
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
-    EditText fid,fuser,fpass,fmail;
-    Button bfin,bfact,bfbus,bfdel;
-
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference UserRef = database.getReference("User");
-
+    //instancia para Swipe tab
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_fire);
+        setContentView(R.layout.activity_rutas);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        fid=(EditText)findViewById(R.id.fid);
-        fuser=(EditText)findViewById(R.id.fusuario);
-        fpass=(EditText)findViewById(R.id.fcontrasena);
-        fmail=(EditText)findViewById(R.id.fcorreo);
-
-        bfin=(Button)findViewById(R.id.bfingresar);
-        bfact=(Button)findViewById(R.id.bfactualizar);
-        bfbus=(Button)findViewById(R.id.bfbuscar);
-        bfdel=(Button)findViewById(R.id.bfborrar);
-
-        bfin.setOnClickListener(this);
-        bfact.setOnClickListener(this);
-        bfbus.setOnClickListener(this);
-        bfdel.setOnClickListener(this);
-
-
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null){
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -84,22 +59,22 @@ public class TestFireActivity extends AppCompatActivity implements View.OnClickL
                         Intent intent3= new Intent(getApplicationContext(),MainActivity.class);
                         startActivity(intent3);
                         //   Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
-                        finish();
                         break;
                     case(1):
-                        Intent intent= new Intent(getApplicationContext(),MainActivity.class);
-                        startActivity(intent);
-                        finish();
+
+                        // finish();
                         // Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
                     case(2):
-                        Intent intent2= new Intent(getApplicationContext(),MainActivity.class);
+                        Intent intent2= new Intent(getApplicationContext(),MisRutasActivity.class);
+
                         startActivity(intent2);
-                        finish();
+                        // finish();
                         // Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
                     case(3):
-
+                        Intent intent= new Intent(getApplicationContext(),PerfilActivity.class);
+                        startActivity(intent);
                         //editor.clear();
                         //editor.remove("v_ingreso");
                         //editor.commit();
@@ -118,7 +93,68 @@ public class TestFireActivity extends AppCompatActivity implements View.OnClickL
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.abierto, R.string.cerrado);
         drawerLayout.setDrawerListener(drawerToggle);
 
+        //______________________
+        PageAdapater  adapater= new PageAdapater(getSupportFragmentManager());
+        mViewPager=(ViewPager)findViewById(R.id.pager);
+        mViewPager.setAdapter(adapater);
+
+        actionBar =getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ActionBar.TabListener tabListener= new ActionBar.TabListener() {
+            @Override
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+            @Override
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            }
+            @Override
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            }
+        };
+
+        //frgmentos a utilizar
+        ActionBar.Tab tab = actionBar.newTab().setText("Mapa").setTabListener(tabListener);
+        actionBar.addTab (tab);
+        tab = actionBar.newTab().setText("Lugares").setTabListener(tabListener);
+        actionBar.addTab (tab);
+        tab = actionBar.newTab().setText("Hoteles").setTabListener(tabListener);
+        actionBar.addTab (tab);
+        tab = actionBar.newTab().setText("Restaurantes").setTabListener(tabListener);
+        actionBar.addTab (tab);
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageSelected(int position) {
+                getSupportActionBar().setSelectedNavigationItem(position);
+
+            }
+        });
     }
+
+    //Adapatador para swipe tab
+    public class PageAdapater extends FragmentPagerAdapter {
+
+        public PageAdapater(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+                case 0: return new MapsFragment();
+                case 1: return new LugarFragment();
+                case 2: return new HotelFragment();
+                case 3: return new RestauranteFragment();
+                default:return null;
+            }
+        }
+        @Override
+        public int getCount() {
+            return 4;
+        }
+    }
+    //navigation draw
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -128,47 +164,6 @@ public class TestFireActivity extends AppCompatActivity implements View.OnClickL
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View view) {
-        int id=view.getId();
-
-        switch (id){
-            case R.id.bfingresar:
-                Usuario user=new Usuario(Integer.parseInt(fid.getText().toString()),fuser.getText().toString(),fmail.getText().toString(),fpass.getText().toString(),"co");
-                UserRef.child(fid.getText().toString()).setValue(user);
-                break;
-            case R.id.bfactualizar:
-
-                break;
-            case R.id.bfbuscar:
-                ValueEventListener postListener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get Post object and use the values to update the UI
-                        Usuario u1 = dataSnapshot.child(fid.getText().toString()).getValue(Usuario.class);
-                        fid.setText(Integer.toString(u1.id));
-                        fuser.setText(u1.usuario);
-                        fmail.setText(u1.correo);
-                        fpass.setText(u1.contrasena);
-                        // ...
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Getting Post failed, log a message
-                        Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                        // ...
-                    }
-                };
-                UserRef.addValueEventListener(postListener);
-                break;
-            case R.id.bfborrar:
-
-                break;
-
-        }
     }
     private void goAutenticacionScreen() {
         Intent intent = new Intent(this, AutenticacionActivity.class);
