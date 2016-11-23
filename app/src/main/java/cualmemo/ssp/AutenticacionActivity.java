@@ -1,6 +1,7 @@
 package cualmemo.ssp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +39,9 @@ import java.util.Arrays;
 
 public class AutenticacionActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+
     private static final String TAG ="MAIN ACTIVITY::" ;
     Button bncuenta;
     ImageButton bLogin;
@@ -61,6 +65,10 @@ public class AutenticacionActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_autenticacion);
+
+        //pref compartidas
+        prefs= getSharedPreferences("uno",MODE_PRIVATE);
+        editor=prefs.edit();
 
         bsignInButton =(SignInButton)findViewById(R.id.sign_in_button);
 
@@ -128,6 +136,14 @@ public class AutenticacionActivity extends AppCompatActivity implements View.OnC
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    if(prefs.getInt("v_flagauth",-1)==3) {
+
+                    }
+                    else{
+                        editor.putInt("v_flagauth", 2);
+                        editor.commit();
+                    }
+
                     goMainScreen();
                 }
             }
@@ -224,8 +240,10 @@ public class AutenticacionActivity extends AppCompatActivity implements View.OnC
     }
     private void goMainScreen() {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        overridePendingTransition(0, 0);
         startActivity(intent);
+
     }
 
     /*@Override

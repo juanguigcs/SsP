@@ -28,6 +28,7 @@ public class SplashActivity extends AppCompatActivity {
                 Intent mainIntent = new Intent().setClass(SplashActivity.this, MainActivity.class);
                 startActivity(mainIntent);
                 finish();
+
             }
         };
         Timer timer = new Timer();

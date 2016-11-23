@@ -17,6 +17,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.PolyUtil;
 
 import java.util.List;
@@ -38,6 +43,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         // Required empty public constructor
     }
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference lugarref = database.getReference("Ruta").child("1").child("Lugar");
+    DatabaseReference hotelref = database.getReference("Ruta").child("1").child("Hotel");
+    DatabaseReference restauranteref = database.getReference("Ruta").child("1").child("Restaurante");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +64,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         map = googleMap;
         //Toast.makeText(getApplicationContext(),"ESSSSTOY ACA ", Toast.LENGTH_SHORT).show();
 
@@ -72,6 +82,51 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         final LatLng quito = new LatLng(-0.1828996, -78.4600724);
         map.addMarker(new MarkerOptions().position(quito).title("Marker in quito"));
+
+        lugarref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(int i=1;i <=2;i++){
+                    Lugar Ltemp= dataSnapshot.child(Integer.toString(i)).getValue(Lugar.class);
+                    map.addMarker(new MarkerOptions().position(new LatLng(Ltemp.lat,Ltemp.lgt)).title(Ltemp.descripcion));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        hotelref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(int i=1;i <=2;i++){
+                    Hotel Htemp= dataSnapshot.child(Integer.toString(i)).getValue(Hotel.class);
+                    map.addMarker(new MarkerOptions().position(new LatLng(Htemp.lat,Htemp.lgt)).title(Htemp.descripcion));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        restauranteref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(int i=1;i <=2;i++){
+                    Restaurante Rtemp= dataSnapshot.child(Integer.toString(i)).getValue(Restaurante.class);
+                    map.addMarker(new MarkerOptions().position(new LatLng(Rtemp.lat,Rtemp.lgt)).title(Rtemp.descripcion));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
+
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(pasto, 5));
 

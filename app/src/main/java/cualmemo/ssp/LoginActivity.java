@@ -1,6 +1,7 @@
 package cualmemo.ssp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+
     Button blAceptar,blCancelar;
     EditText erContrasena,erCorreo;
 
@@ -27,6 +31,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //pref compartidas
+        prefs= getSharedPreferences("uno",MODE_PRIVATE);
+        editor=prefs.edit();
 
         setContentView(R.layout.activity_login);
         blAceptar =(Button)findViewById(R.id.blAceptar);
@@ -48,9 +55,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.blAceptar:
                 if(valida()) {
                     if(startLogin()) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        int tempf=3;
+                        editor.putInt("v_flagauth", tempf);
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "pref:  "+prefs.getInt("v_flagauth",-1), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, AutenticacionActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        overridePendingTransition(0, 0);
                         startActivity(intent);
-                        finish();
                     }
                 }
                 break;
@@ -74,13 +86,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }else{
                             //display some message here
                             Toast.makeText(getApplicationContext(),"correo y/o contraseña invalida ",Toast.LENGTH_LONG).show();
-                            return;
+                            return ;
                         }
 
                     }
                 });
         return true;
     }
+
 
     protected boolean valida () {
         String temp_contrasena = erContrasena.getText().toString();

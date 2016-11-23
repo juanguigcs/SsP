@@ -136,8 +136,8 @@ public class TestFireActivity extends AppCompatActivity implements View.OnClickL
 
         switch (id){
             case R.id.bfingresar:
-                Usuario user=new Usuario(Integer.parseInt(fid.getText().toString()),fuser.getText().toString(),fmail.getText().toString(),fpass.getText().toString(),"co");
-                UserRef.child(fid.getText().toString()).setValue(user);
+                //Usuario user=new Usuario(Integer.parseInt(fid.getText().toString()),fuser.getText().toString(),fmail.getText().toString(),fpass.getText().toString(),"co");
+               // UserRef.child(fid.getText().toString()).setValue(user);
                 break;
             case R.id.bfactualizar:
 
@@ -147,11 +147,11 @@ public class TestFireActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // Get Post object and use the values to update the UI
-                        Usuario u1 = dataSnapshot.child(fid.getText().toString()).getValue(Usuario.class);
-                        fid.setText(Integer.toString(u1.id));
-                        fuser.setText(u1.usuario);
-                        fmail.setText(u1.correo);
-                        fpass.setText(u1.contrasena);
+                       // Usuario u1 = dataSnapshot.child(fid.getText().toString()).getValue(Usuario);
+                       // fid.setText(Integer.toString(u1.id));
+                        //fuser.setText(u1.usuario);
+                        //fmail.setText(u1.correo);
+                        //fpass.setText(u1.contrasena);
                         // ...
                     }
 

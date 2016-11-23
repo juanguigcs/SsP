@@ -5,17 +5,16 @@ package cualmemo.ssp;
  */
 
 public class Usuario {
-    public int id;
-    public String usuario,correo,contrasena,pais;
+
+    public String  id,usuario,correo;
 
     public Usuario() {
     }
 
-    public Usuario(int id, String usuario, String correo, String contrasena, String pais) {
+    public Usuario(String id, String usuario, String correo) {
         this.id = id;
         this.usuario = usuario;
         this.correo = correo;
-        this.contrasena = contrasena;
-        this.pais = pais;
+
     }
 }

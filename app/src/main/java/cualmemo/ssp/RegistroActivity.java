@@ -1,6 +1,7 @@
 package cualmemo.ssp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+
     Button brAceptar,brCancelar;
     EditText erUsario, erContrasena,erRContrasena,erCorreo;
 
@@ -34,6 +38,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+
+        //pref compartidas
+        prefs= getSharedPreferences("uno",MODE_PRIVATE);
+        editor=prefs.edit();
 
         brAceptar =(Button)findViewById(R.id.brAceptar);
         brCancelar=(Button)findViewById(R.id.brCancelar);
@@ -56,7 +64,12 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             case R.id.brAceptar:
                 if(valida()) {
                     if(startRegitro()) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        int tempf=3;
+                        editor.putInt("v_flagauth", tempf);
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "pref:  "+prefs.getInt("v_flagauth",-1), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, AutenticacionActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                     }
                 }

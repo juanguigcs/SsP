@@ -1,6 +1,7 @@
 package cualmemo.ssp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -22,35 +23,56 @@ import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 public class MainActivity extends AppCompatActivity  {
+
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
     String[] nombrerutas = new String[]{"- Medellín-Machu Picchu"};
     ListView Lst, listz;
 
     private String[] opciones = new String[]{"Principal", "Rutas", "Mis rutas", "Perfil", "firebase", "Cerrar sesión"};
-
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
     Button Blogout;
     public static final String TAG = "NOTICIAS";
-
     private TextView infoTextView;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference UserRef = database.getReference("User");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //pref compartidas
+        prefs= getSharedPreferences("uno",MODE_PRIVATE);
+        editor=prefs.edit();
+
        // Blogout=(Button)findViewById(R.id.blogout);
        // Blogout.setOnClickListener(this);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser userF = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user != null) {
-            Toast.makeText(getApplicationContext(),"user"+user.getDisplayName(),Toast.LENGTH_SHORT).show();
+        if (userF != null) {
+            if(prefs.getInt("v_flagauth",-1)==2) {
+
+                Toast.makeText(getApplicationContext(), "user" + userF.getDisplayName()+"pref:  "+prefs.getInt("v_flagauth",-1), Toast.LENGTH_SHORT).show();
+                Usuario user = new Usuario(userF.getUid(), userF.getDisplayName(), userF.getEmail());
+                //UserRef.child(userF.getDisplayName()).setValue(user);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "user" + userF.getDisplayName()+"pref:  "+prefs.getInt("v_flagauth",-1), Toast.LENGTH_SHORT).show();
+
+
+            }
+
         } else {
             goAutenticacionScreen();
         }
@@ -168,6 +190,8 @@ private void goAutenticacionScreen() {
 public void logout(View view) {
     FirebaseAuth.getInstance().signOut();
     LoginManager.getInstance().logOut();
+    editor.remove("v_flagauth");
+    editor.commit();
         goAutenticacionScreen();
         }
 }
