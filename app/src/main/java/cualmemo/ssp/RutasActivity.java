@@ -26,7 +26,7 @@ public class RutasActivity extends AppCompatActivity {
 
     //Instancia para el Navigation drawer
     ListView listz;
-    private String [] opciones = new  String[]{"Principal","Rutas","Mis rutas","Perfil","Cerrar sesión"};
+    private String [] opciones = new  String[]{"Principal","Perfil","Cerrar sesión"};
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -60,7 +60,7 @@ public class RutasActivity extends AppCompatActivity {
                         startActivity(intent3);
                         //   Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
-                    case(1):
+                    /*case(1):
 
                         // finish();
                         // Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
@@ -71,8 +71,8 @@ public class RutasActivity extends AppCompatActivity {
                         startActivity(intent2);
                         // finish();
                         // Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
-                        break;
-                    case(3):
+                        break;*/
+                    case(1):
                         Intent intent= new Intent(getApplicationContext(),PerfilActivity.class);
                         startActivity(intent);
                         //editor.clear();
@@ -80,7 +80,7 @@ public class RutasActivity extends AppCompatActivity {
                         //editor.commit();
                         //  Toast.makeText(getApplicationContext(),"Opcion cerrar  "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
-                    case(4):
+                    case(2):
                         logout(view);
                         //finish();
                         break;

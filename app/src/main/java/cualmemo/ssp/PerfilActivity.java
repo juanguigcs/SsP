@@ -12,31 +12,45 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 public class PerfilActivity extends AppCompatActivity {
     ListView Lst, listz;
 
-    private String [] opciones = new  String[]{"Principal","Rutas","Mis rutas","Perfil","Cerrar sesión"};
+    private String [] opciones = new  String[]{"Principal","Perfil","Cerrar sesión"};
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+
+    ImageView imgperfil;
+    TextView   tcorreo, tusuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
+
+        tcorreo=(TextView)findViewById(R.id.tCorreo);
+        tusuario=(TextView)findViewById(R.id.tUsuario);
+        imgperfil=(ImageView)findViewById(R.id.imgperfil);
+
+        FirebaseUser userF = FirebaseAuth.getInstance().getCurrentUser();
+
+        tcorreo.setText(userF.getEmail());
+        tusuario.setText(userF.getDisplayName());
+        Picasso.with(getApplicationContext()).load(userF.getPhotoUrl()).into(imgperfil);
 
         //myRef.setValue("Hello, World!");
 
@@ -61,7 +75,7 @@ public class PerfilActivity extends AppCompatActivity {
                         startActivity(intent3);
                         //   Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
-                    case(1):
+                    /*case(1):
                         Intent intent= new Intent(getApplicationContext(),RutasActivity.class);
                         startActivity(intent);
                         // finish();
@@ -73,15 +87,15 @@ public class PerfilActivity extends AppCompatActivity {
                         startActivity(intent2);
                         // finish();
                         // Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
-                        break;
-                    case(3):
+                        break;*/
+                    case(1):
 
                         //editor.clear();
                         //editor.remove("v_ingreso");
                         //editor.commit();
                         //  Toast.makeText(getApplicationContext(),"Opcion cerrar  "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
-                    case(4):
+                    case(2):
                         logout(view);
                         //finish();
                         break;

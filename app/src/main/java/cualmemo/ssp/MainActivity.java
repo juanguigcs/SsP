@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity  {
     String[] nombrerutas = new String[]{"- Medellín-Machu Picchu"};
     ListView Lst, listz;
 
-    private String[] opciones = new String[]{"Principal", "Rutas", "Mis rutas", "Perfil", "firebase", "Cerrar sesión"};
+    private String[] opciones = new String[]{"Principal",  "Perfil", "Cerrar sesión"};
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity  {
         if (userF != null) {
             if(prefs.getInt("v_flagauth",-1)==2) {
 
-                Toast.makeText(getApplicationContext(), "user" + userF.getDisplayName()+"pref:  "+prefs.getInt("v_flagauth",-1), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "user" + userF.getDisplayName()+"pref:  "+prefs.getInt("v_flagauth",-1), Toast.LENGTH_SHORT).show();
                 Usuario user = new Usuario(userF.getUid(), userF.getDisplayName(), userF.getEmail());
                 //UserRef.child(userF.getDisplayName()).setValue(user);
             }
             else {
-                Toast.makeText(getApplicationContext(), "user" + userF.getDisplayName()+"pref:  "+prefs.getInt("v_flagauth",-1), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "user" + userF.getDisplayName()+"pref:  "+prefs.getInt("v_flagauth",-1), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity  {
                     case (0):
                         //   Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
-                    case (1):
+                    /*case (1):
                         Intent intent = new Intent(getApplicationContext(), RutasActivity.class);
                         startActivity(intent);
                         // finish();
@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity  {
                         startActivity(intent2);
                         // finish();
                         // Toast.makeText(getApplicationContext(),"Opcion "+String.valueOf(i), Toast.LENGTH_SHORT).show();
-                        break;
-                    case (3):
+                        break;*/
+                    case (1):
                         Intent intent3 = new Intent(getApplicationContext(), PerfilActivity.class);
                         startActivity(intent3);
                         //editor.clear();
@@ -137,12 +137,12 @@ public class MainActivity extends AppCompatActivity  {
                         //editor.commit();
                         //  Toast.makeText(getApplicationContext(),"Opcion cerrar  "+String.valueOf(i), Toast.LENGTH_SHORT).show();
                         break;
-                    case (4):
+                    /*case (4):
                         Intent intent5 = new Intent(getApplicationContext(), TestFireActivity.class);
                         startActivity(intent5);
                         finish();
-                        break;
-                    case (5):
+                        break;*/
+                    case (2):
                         logout(view);
                         //finish();
                         break;
